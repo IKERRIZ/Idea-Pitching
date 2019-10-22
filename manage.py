@@ -8,7 +8,10 @@ app = create_app('test')
 app = create_app('development')
 app = create_app('production')
 
+# create manager instance
 manager = Manager(app)
+
+# create a migrate instance
 migrate = Migrate(app,db)
 
 manager.add_command('server', Server)
