@@ -18,11 +18,9 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(255),unique = True,index = True)
     pass_secure = db.Column(db.String(255))
     pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
-    comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
+    comments = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
     upvotes = db.relationship('Upvote', backref = 'user', lazy = 'dynamic')
     downvotes = db.relationship('Downvote', backref = 'user', lazy = 'dynamic')
-
-
 
 
     @property
@@ -42,18 +40,18 @@ class User(UserMixin,db.Model):
 
 
 class Pitch(db.Model):
-     __tablename__ = 'pitches'
+    __tablename__ = 'pitches'
 
     id = db.Column(db.Integer, primary_key = True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     description = db.Column(db.String(), index = True)
     title = db.Column(db.String())
     category = db.Column(db.String(255), nullable=False)
-    comments = db.relationship('Comment',backref='pitch',lazy='dynamic')
+    # comments = db.relationship('Comment',backref='pitch',lazy='dynamic')
     upvotes = db.relationship('Upvote', backref = 'pitch', lazy = 'dynamic')
     downvotes = db.relationship('Downvote', backref = 'pitch', lazy = 'dynamic')
 
-     @classmethod
+    @classmethod
     def get_pitches(cls, id):
         pitches = Pitch.query.order_by(pitch_id=id).desc().all()
         return pitches
@@ -119,5 +117,25 @@ class Downvote(db.Model):
 
     def __repr__(self):
         return f'{self.user_id}:{self.pitch_id}'
+
+class Comment(db.Model):
+   __tablename__ = 'comments'
+
+   id = db.Column(db.Integer,primary_key = True)
+   description = db.Column(db.String(1000))
+   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+   pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
+
+
+   def save_comment(self):
+       db.session.add(self)
+       db.session.commit()
+
+   @classmethod
+   def get_comments(cls,pitch):
+       comments = Comment.query.filter_by(pitch_id=pitch).all()
+       return comments
+
+    
 
 
