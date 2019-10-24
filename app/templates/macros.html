@@ -32,8 +32,8 @@
 			{% if comments %}
 			{% for comment in comments %}
 				<div class="row text-center">
-						<a><p style="color: green">{{ comment.description }}</p></a>
-						<small> posted by {{comment.user.username}}</small>
+					<a><p style="color: green">{{ comment.description }}</p></a>
+					<small> posted by {{comment.user.username}}</small>
 				</div>
 			{% endfor %}
 			{% else %}
@@ -43,7 +43,4 @@
 
 	</ul>
 	
-			
-
-
 {% endmacro %}
