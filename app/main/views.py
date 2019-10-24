@@ -1,11 +1,11 @@
 from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
-from ..models import Pitch, User,Comment,Upvote,Downvote
+from ..models import Pitch,User,Upvote,Downvote, Comment
 from flask.views import View,MethodView
 from flask_login import login_required, current_user
 from .forms import PitchForm,CommentForm, UpvoteForm
 from .. import db
-import markdown
+import markdown2
 
 #Views
 @main.route('/', methods = ['GET','POST'])
@@ -59,10 +59,12 @@ def new_comment(pitch_id):
         db.session.add(new_comment)
         db.session.commit()
 
-        return redirect(url_for('.new_comment', pitch_id= pitch_id))
+        return redirect(url_for('main.index', pitch_id= pitch_id))
 
     all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
     return render_template('comments.html', form = form, comment = all_comments, pitch = pitch )
+
+
 @main.route('/pitch/upvote/<int:pitch_id>/upvote', methods = ['GET', 'POST'])
 @login_required
 def upvote(pitch_id):
@@ -87,3 +89,7 @@ def downvote(pitch_id):
     
     if Downvote.query.filter(Downvote.user_id==user.id,Downvote.pitch_id==pitch_id).first():
         return  redirect(url_for('main.index'))
+
+    new_downvote = Downvote(pitch_id=pitch_id, user = current_user)
+    new_downvote.save_downvotes()
+    return redirect(url_for('main.index'))
