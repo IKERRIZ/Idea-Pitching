@@ -38,7 +38,7 @@ https://purplepitch.herokuapp.com/
 A user needs to sign up
 A user the needs to sign in to vote and post pitches
 ## Support and Contacts
-In case You have any issues using this code please do no hesitate to get in touch with me through kephaokari@gmail.com or leave a commit here on github.
+In case You have any issues using this code please do no hesitate to get in touch with me through okothfaith94@gmail.com or leave a commit here on github.
 
 ## Known Bugs
 No known bugs
