@@ -33,7 +33,7 @@ Python3.6
 * $ ./start.sh
 
 ## Live link
-
+https://purplepitch.herokuapp.com/
 ## How it works
 A user needs to sign up
 A user the needs to sign in to vote and post pitches
