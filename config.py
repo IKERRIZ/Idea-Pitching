@@ -1,8 +1,8 @@
 import os
 
 class Config:
-    SECRET_KEY = 'youarestrong'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:faith@localhost/pitch'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SIMPLEMDE_JS_IIFE = True
     SIMPLEMDE_USE_CDN = True
@@ -24,24 +24,25 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    # SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 class TestConfig(Config):
-   '''
-   Testing configuration child class
+
+    '''
+    Testing configuration child class
   
-   Args:
-       Config: The parent configuration class with General configuration settings
-   '''
-   SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:faith@localhost/pitch'
-
-   pass
-
-class DevConfig(Config):
+    Args:
+        Config: The parent configuration class with General configuration settings
+    '''
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:faith@localhost/pitch'
-    
 
     DEBUG = True
+
+class DevConfig(Config):
+   SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    
+
+   
 
 config_options ={
     'development':DevConfig,
